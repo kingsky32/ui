@@ -22,9 +22,6 @@ FROM nginx AS runner
 
 RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
 
-RUN addgroup --system --gid 1001 web
-RUN adduser --system --uid 1001 nginx
-
 RUN rm /usr/share/nginx/html/*
 
 COPY ./nginx.conf /etc/nginx/nginx.conf
