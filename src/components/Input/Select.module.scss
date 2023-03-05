@@ -1,0 +1,72 @@
+.container {
+  display: inline-block;
+  &.error {
+    .inputContainer {
+      .label {
+        color: #d9534f;
+      }
+      .select {
+        border-color: #d9534f;
+        color: #d9534f;
+      }
+    }
+  }
+  .selectContainer {
+    width: 100%;
+    display: block;
+    .label {
+      font-size: 14px;
+      letter-spacing: -1px;
+      color: #666666;
+      margin-bottom: 5px;
+      display: block;
+    }
+    .select {
+      width: 100%;
+      display: block;
+      height: 35px;
+      line-height: 35px;
+      border-radius: 5px;
+      background-color: #ffffff;
+      color: #333333;
+      border: 1px solid #efefef;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: -1px;
+      padding: 0 38px 0 11px;
+      box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.05);
+      transition: all 0.2s ease;
+      outline: none;
+      box-sizing: border-box;
+      margin: 0;
+      -webkit-appearance: none;
+      appearance: none;
+      background-image: url('../../assets/icons/icon_dropdown.png');
+      background-position: calc(100% - 15px) center;
+      background-size: 8px;
+      background-repeat: no-repeat;
+      &:hover,
+      &:focus {
+        box-shadow: 0 5px 25px 0 rgba(0, 0, 0, 0.1);
+        transition-duration: 0.4s;
+        border: 1px solid #3068f4;
+      }
+      &:invalid {
+        color: #dddddd;
+      }
+      option {
+        &[value=''] {
+          color: #dddddd;
+        }
+        color: #333333;
+      }
+    }
+  }
+  .errorMessage {
+    margin: 5px 0 0;
+    color: #d9534f;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -1px;
+  }
+}
