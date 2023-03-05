@@ -1,4 +1,5 @@
 .li {
+  list-style: none;
   &:not(:last-child) {
     border-bottom: 1px solid #efefef;
   }

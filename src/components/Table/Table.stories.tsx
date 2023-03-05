@@ -4,7 +4,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import InternalTable from './Table';
 
 export default {
-  title: 'Table',
+  title: 'Table/Table',
   component: InternalTable,
   args: {
     items: [...new Array(1000)].map((_, index) => ({
