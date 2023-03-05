@@ -21,3 +21,4 @@ node_modules/
 .idea/
 package-lock.json
 *.iml
+storybook-static
