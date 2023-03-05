@@ -1,26 +1,38 @@
 .li {
+  display: block;
   list-style: none;
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.05);
+  border-radius: 7px;
+  border: 1px solid #efefef;
+  transition: all 0.2s ease;
   &:not(:last-child) {
     border-bottom: 1px solid #efefef;
+  }
+  &:hover {
+    box-shadow: 0 5px 25px 0 rgba(0, 0, 0, 0.1);
+    transition-duration: 0.4s;
   }
   .dl {
     display: flex;
     align-items: center;
     text-align: left;
+    margin: 0;
     .dt {
-      flex: 1;
+      flex: 0 0 150px;
       padding: 15px 20px;
       border-right: 1px solid #efefef;
       font-size: 14px;
       color: #333333;
       font-weight: 600;
+      box-sizing: border-box;
     }
     .dd {
-      flex: 8;
+      flex: 1;
       padding: 15px 20px;
       color: #333333;
       font-size: 14px;
       font-weight: 400;
+      margin: 0;
     }
   }
 }
