@@ -1,0 +1,36 @@
+.container {
+  display: inline-block;
+  &.error {
+    .inputContainer {
+      .label {
+        color: #d9534f;
+      }
+      .input {
+        border-color: #d9534f;
+        color: #d9534f;
+      }
+    }
+  }
+  .inputContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    .input {
+      margin: 0 8px 0;
+    }
+    .label {
+      font-size: 14px;
+      letter-spacing: -1px;
+      color: #666666;
+      display: block;
+      margin-top: -3px;
+    }
+  }
+  .errorMessage {
+    margin: 5px 0 0;
+    color: #d9534f;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -1px;
+  }
+}
