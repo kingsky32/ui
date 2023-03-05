@@ -4,7 +4,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import InternalDescriptions from './Descriptions';
 
 export default {
-  title: 'Descriptions',
+  title: 'Descriptions/Descriptions',
   component: InternalDescriptions,
 } as ComponentMeta<typeof InternalDescriptions>;
 
