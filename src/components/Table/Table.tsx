@@ -1,6 +1,10 @@
 import React from 'react';
 import classNames from '../../utils/classNames';
 import styles from './Table.module.scss';
+import iconFirst from '../../assets/icons/icon_first.png';
+import iconPrev from '../../assets/icons/icon_prev.png';
+import iconNext from '../../assets/icons/icon_next.png';
+import iconLast from '../../assets/icons/icon_last.png';
 
 export type TableItem<T = Record<string, any>> = T;
 
@@ -23,6 +27,7 @@ export interface TablePagination {
   limit?: number;
   render?: (page: number) => React.ReactNode;
   onPageChange?: (page: number) => void;
+  asynchronous?: boolean;
 }
 
 export interface TableProps<T = Record<string, any>>
@@ -67,11 +72,15 @@ export default function Table<T = Record<string, any>>({
         <tbody className={styles.tbody}>
           {pagination
             ? [...new Array(pagination.limit ?? 10)].map((_, index) => {
-                const itemIndex =
-                  ((pagination.page ?? 1) - 1) * (pagination.limit ?? 10) +
-                  index;
+                const itemIndex = pagination.asynchronous
+                  ? index
+                  : ((pagination.page ?? 1) - 1) * (pagination.limit ?? 10) +
+                    index;
                 const item = items[itemIndex];
-                const key = rowKey ? rowKey(item, itemIndex) : itemIndex;
+                const key = rowKey ? rowKey(item, index) : itemIndex;
+                if (!item) {
+                  return null;
+                }
                 return (
                   <tr key={key} className={styles.tr}>
                     {columns.map((column, columnIndex) => {
@@ -83,7 +92,7 @@ export default function Table<T = Record<string, any>>({
                           align={column.align ?? 'left'}
                         >
                           {column.render
-                            ? column.render(value, item, itemIndex, items)
+                            ? column.render(value, item, index, items)
                             : (value as React.ReactNode)}
                         </td>
                       );
@@ -116,6 +125,43 @@ export default function Table<T = Record<string, any>>({
       </table>
       {pagination && (
         <ul className={styles.paginationContainer}>
+          {(pagination.page ?? 1) > 1 && (
+            <li className={styles.pagination}>
+              <button
+                className={styles.paginationButton}
+                type="button"
+                onClick={() => pagination.onPageChange?.(1)}
+              >
+                <img
+                  className={styles.paginationButtonImage}
+                  src={iconFirst}
+                  alt="first"
+                />
+              </button>
+            </li>
+          )}
+          {(pagination.page ?? 1) > 1 && (
+            <li
+              className={styles.pagination}
+              onClick={() =>
+                pagination.onPageChange?.((pagination.page ?? 1) - 1)
+              }
+            >
+              <button
+                className={styles.paginationButton}
+                type="button"
+                onClick={() =>
+                  pagination.onPageChange?.((pagination.page ?? 1) - 1)
+                }
+              >
+                <img
+                  className={styles.paginationButtonImage}
+                  src={iconPrev}
+                  alt="prev"
+                />
+              </button>
+            </li>
+          )}
           {[
             ...new Array(
               Math.min(
@@ -125,9 +171,19 @@ export default function Table<T = Record<string, any>>({
             ),
           ].map((_, index) => {
             const page =
-              ((pagination.page ?? 1) - 1) * (pagination.limit ?? 10) +
-              index +
-              1;
+              (pagination.page ?? 1) > 3
+                ? (pagination.page ?? 1) <
+                  Math.ceil(
+                    (pagination?.total ?? 0) / (pagination?.limit ?? 10),
+                  ) -
+                    2
+                  ? (pagination.page ?? 1) - 2 + index
+                  : Math.ceil(
+                      (pagination.total ?? 0) / (pagination.limit ?? 10),
+                    ) +
+                    index -
+                    4
+                : index + 1;
             return (
               <li
                 key={`Pagination-${index}`}
@@ -136,10 +192,56 @@ export default function Table<T = Record<string, any>>({
                   page === pagination.page && styles.active,
                 )}
               >
-                {pagination.render ? pagination.render(page) : page}
+                <button
+                  className={styles.paginationButton}
+                  type="button"
+                  onClick={() => pagination.onPageChange?.(page)}
+                >
+                  {pagination.render ? pagination.render(page) : page}
+                </button>
               </li>
             );
           })}
+          {(pagination.page ?? 1) <
+            Math.ceil((pagination.total ?? 0) / (pagination.limit ?? 10)) && (
+            <li className={styles.pagination}>
+              <button
+                className={styles.paginationButton}
+                type="button"
+                onClick={() =>
+                  pagination.onPageChange?.((pagination.page ?? 1) + 1)
+                }
+              >
+                <img
+                  className={styles.paginationButtonImage}
+                  src={iconNext}
+                  alt="next"
+                />
+              </button>
+            </li>
+          )}
+          {(pagination.page ?? 1) <
+            Math.ceil((pagination.total ?? 0) / (pagination.limit ?? 10)) && (
+            <li className={styles.pagination}>
+              <button
+                className={styles.paginationButton}
+                type="button"
+                onClick={() =>
+                  pagination.onPageChange?.(
+                    Math.ceil(
+                      (pagination.total ?? 0) / (pagination.limit ?? 0),
+                    ),
+                  )
+                }
+              >
+                <img
+                  className={styles.paginationButtonImage}
+                  src={iconLast}
+                  alt="last"
+                />
+              </button>
+            </li>
+          )}
         </ul>
       )}
     </div>
